@@ -15,8 +15,8 @@ def print_tweet(tweet):
     scrollphat.set_brightness(5)
     scrollphat.write_string(tweet)
     x = 0
-    # scroll the message twice ish
-    while x < ((len(tweet)*4)*2):
+    # scroll the message twice
+    while x < (scrollphat.buffer_len()*2):
         scrollphat.scroll()
         sleep(0.1)
         x += 1
@@ -33,7 +33,10 @@ if __name__ == "__main__":
         tweets = api.mentions_timeline()[0:2]  # no way I'll have more than 2 new ones :D
         for tweet in tweets:
             if tweet.id not in tweet_list:
-                tweet_to_print = tweet.user.name + ' tweeted: ' + tweet.text + '            '
+                # get text to scroll and turn to uppercase for easy reading
+                tweet_to_print = '--> %s tweeted: %s ' % (tweet.user.name.upper(), tweet.text.upper())
+                # ignore non ascii characters like emojis as scrollphat cannot display them
+                tweet_to_print = tweet_to_print.encode('ascii', 'ignore').decode('ascii')
                 print_tweet(tweet_to_print)
                 tweet_list.append(tweet.id)
                 if len(tweet_list) > 5:
