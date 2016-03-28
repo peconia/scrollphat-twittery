@@ -12,7 +12,7 @@ ACCESS_TOKEN_URL = "https://api.twitter.com/oauth/access_token"
 
 def print_tweet(tweet):
     scrollphat.clear()
-    scrollphat.set_brightness(5)
+    scrollphat.set_brightness(7)
     scrollphat.write_string(tweet)
     x = 0
     # scroll the message twice
@@ -34,7 +34,7 @@ if __name__ == "__main__":
         for tweet in tweets:
             if tweet.id not in tweet_list:
                 # get text to scroll and turn to uppercase for easy reading
-                tweet_to_print = '--> %s tweeted: %s ' % (tweet.user.name.upper(), tweet.text.upper())
+                tweet_to_print = '--> %s TWEETED: %s ' % (tweet.user.name.upper(), tweet.text.upper())
                 # ignore non ascii characters like emojis as scrollphat cannot display them
                 tweet_to_print = tweet_to_print.encode('ascii', 'ignore').decode('ascii')
                 print_tweet(tweet_to_print)
@@ -42,4 +42,4 @@ if __name__ == "__main__":
                 if len(tweet_list) > 5:
                     # make sure tweet list won't get too big
                     tweet_list.pop(0)
-        sleep(120)
+        sleep(120) # avoid hitting rate limit
